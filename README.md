@@ -1,27 +1,22 @@
-# Zenny - a cryptocurrency implementation in less than 1500 lines of code
-
-[![Build Status](https://travis-ci.org/conradoqg/zenny.svg?branch=master)](https://travis-ci.org/conradoqg/zenny) [![Coverage Status](https://coveralls.io/repos/github/conradoqg/zenny/badge.svg?branch=master)](https://coveralls.io/github/conradoqg/zenny?branch=master)
-
-### Motivation
-Cryptocurrencies and smart-contracts on top of a blockchain aren't the most trivial concepts to understand, things like wallets, addresses, block proof-of-work, transactions and their signatures, make more sense when they are in a broad context. Inspired by [naivechain](https://github.com/lhartikk/naivechain), this project is an attempt to provide as concise and simple an implementation of a cryptocurrency as possible.
+# Zenny - a cryptocurrency for The Network
 
 ### What is cryptocurrency
-[From Wikipedia](https://en.wikipedia.org/wiki/Cryptocurrency) : A cryptocurrency (or crypto currency) is a digital asset designed to work as a medium of exchange using cryptography to secure the transactions and to control the creation of additional units of the currency.
+[From Wikipedia](https://en.wikipedia.org/wiki/Cryptocurrency): A cryptocurrency (or crypto currency) is a digital asset designed to work as a medium of exchange using cryptography to secure the transactions and to control the creation of additional units of the currency.
 
 ### Key concepts of Zenny
 * Components
-    * HTTP Server
-    * Node
-    * Blockchain
-    * Operator
-    * Miner
+  * HTTP Server
+  * Node
+  * Blockchain
+  * Operator
+  * Miner
 * HTTP API interface to control everything
 * Synchronization of blockchain and transactions
 * Simple proof-of-work (The difficulty increases every 5 blocks)
 * Addresses creation using a deterministic approach [EDDSA](https://en.wikipedia.org/wiki/EDDSA)
 * Data is persisted to a folder
 
-> Naivechain uses websocket for p2p communication, but it was dropped to simplify the understanding of message exchange. It is relying only on REST communication.
+> Zenny is relying only on REST communication for P2P communication.
 
 #### Components communication
 ![Components communication](doc/components.png)
@@ -114,9 +109,9 @@ Transactions is a list of unconfirmed transactions. Nothing special about it. In
 
 ```
 [
-    transaction 1,
-    transaction 2,
-    transaction 3
+  transaction 1,
+  transaction 2,
+  transaction 3
 ]
 ```
 
@@ -134,22 +129,22 @@ A block represents a group of transactions and contains information that links i
 
 ```javascript
 { // Block
-    "index": 0, // (first block: 0)
-    "previousHash": "0", // (hash of previous block, first block is 0) (64 bytes)
-    "timestamp": 1465154705, // number of seconds since January 1, 1970
-    "nonce": 0, // nonce used to identify the proof-of-work step.
-    "transactions": [ // list of transactions inside the block
-        { // transaction 0
-            "id": "63ec3ac02f...8d5ebc6dba", // random id (64 bytes)
-            "hash": "563b8aa350...3eecfbd26b", // hash taken from the contents of the transaction: sha256 (id + data) (64 bytes)
-            "type": "regular", // transaction type (regular, fee, reward)
-            "data": {
-                "inputs": [], // list of input transactions
-                "outputs": [] // list of output transactions
-            }
-        }
-    ],
-    "hash": "c4e0b8df46...199754d1ed" // hash taken from the contents of the block: sha256 (index + previousHash + timestamp + nonce + transactions) (64 bytes)
+  "index": 0, // (first block: 0)
+  "previousHash": "0", // (hash of previous block, first block is 0) (64 bytes)
+  "timestamp": 1465154705, // number of seconds since January 1, 1970
+  "nonce": 0, // nonce used to identify the proof-of-work step.
+  "transactions": [ // list of transactions inside the block
+    { // transaction 0
+      "id": "63ec3ac02f...8d5ebc6dba", // random id (64 bytes)
+      "hash": "563b8aa350...3eecfbd26b", // hash taken from the contents of the transaction: sha256 (id + data) (64 bytes)
+      "type": "regular", // transaction type (regular, fee, reward)
+      "data": {
+        "inputs": [], // list of input transactions
+        "outputs": [] // list of output transactions
+      }
+    }
+  ],
+  "hash": "c4e0b8df46...199754d1ed" // hash taken from the contents of the block: sha256 (index + previousHash + timestamp + nonce + transactions) (64 bytes)
 }
 ```
 
@@ -161,30 +156,30 @@ A transaction contains a list of inputs and outputs representing a transfer of c
 
 ```javascript
 { // Transaction
-    "id": "84286bba8d...7477efdae1", // random id (64 bytes)
-    "hash": "f697d4ae63...c1e85f0ac3", // hash taken from the contents of the transaction: sha256 (id + data) (64 bytes)
-    "type": "regular", // transaction type (regular, fee, reward)
-    "data": {
-        "inputs": [ // Transaction inputs
-            {
-                "transaction": "9e765ad30c...e908b32f0c", // transaction hash taken from a previous unspent transaction output (64 bytes)
-                "index": "0", // index of the transaction taken from a previous unspent transaction output
-                "amount": 5000000000, // amount of satoshis
-                "address": "dda3ce5aa5...b409bf3fdc", // from address (64 bytes)
-                "signature": "27d911cac0...6486adbf05" // transaction input hash: sha256 (transaction + index + amount + address) signed with owner address's secret key (128 bytes)
-            }
-        ],
-        "outputs": [ // Transaction outputs
-            {
-                "amount": 10000, // amount of satoshis
-                "address": "4f8293356d...b53e8c5b25" // to address (64 bytes)
-            },
-            {
-                "amount": 4999989999, // amount of satoshis
-                "address": "dda3ce5aa5...b409bf3fdc" // change address (64 bytes)
-            }
-        ]
-    }
+  "id": "84286bba8d...7477efdae1", // random id (64 bytes)
+  "hash": "f697d4ae63...c1e85f0ac3", // hash taken from the contents of the transaction: sha256 (id + data) (64 bytes)
+  "type": "regular", // transaction type (regular, fee, reward)
+  "data": {
+    "inputs": [ // Transaction inputs
+      {
+        "transaction": "9e765ad30c...e908b32f0c", // transaction hash taken from a previous unspent transaction output (64 bytes)
+        "index": "0", // index of the transaction taken from a previous unspent transaction output
+        "amount": 5000000000, // amount of satoshis
+        "address": "dda3ce5aa5...b409bf3fdc", // from address (64 bytes)
+        "signature": "27d911cac0...6486adbf05" // transaction input hash: sha256 (transaction + index + amount + address) signed with owner address's secret key (128 bytes)
+      }
+    ],
+    "outputs": [ // Transaction outputs
+      {
+        "amount": 10000, // amount of satoshis
+        "address": "4f8293356d...b53e8c5b25" // to address (64 bytes)
+      },
+      {
+        "amount": 4999989999, // amount of satoshis
+        "address": "dda3ce5aa5...b409bf3fdc" // change address (64 bytes)
+      }
+    ]
+  }
 }
 ```
 
@@ -198,23 +193,23 @@ A wallet contains a random id number, the password hash and the secret generated
 
 ```javascript
 [
-    { // Wallet
-        "id": "884d3e0407...f29af094fd", // random id (64 bytes)
-        "passwordHash": "5ba9151d1c...1424be8e2c", // hash taken from password: sha256 (password) (64 bytes)
-        "secret": "6acb83e364...c1a04b6ee6", // pbkdf2 secret taken from password hash: sha512 (salt + passwordHash + random factor)
-        "keyPairs": [
-            {
-                "index": 1,
-                "secretKey": "6acb83e364...ee6bcdbc73", // EDDSA secret key generated from the secret (1024 bytes)
-                "publicKey": "dda3ce5aa5...b409bf3fdc" // EDDSA public key generated from the secret (64 bytes) (also known as address)
-            },
-            {
-                "index": 2,
-                "secretKey": "072ab010ed...246ed16d26", // EDDSA secret key generated from pbkdf2 (sha512 (salt + passwordHash + random factor)) over last address secret key (1024 bytes)
-                "publicKey": "4f8293356d...b53e8c5b25"  // EDDSA public key generated from the secret (64 bytes) (also known as address)
-            }     
-        ]
-    }
+  { // Wallet
+    "id": "884d3e0407...f29af094fd", // random id (64 bytes)
+    "passwordHash": "5ba9151d1c...1424be8e2c", // hash taken from password: sha256 (password) (64 bytes)
+    "secret": "6acb83e364...c1a04b6ee6", // pbkdf2 secret taken from password hash: sha512 (salt + passwordHash + random factor)
+    "keyPairs": [
+      {
+        "index": 1,
+        "secretKey": "6acb83e364...ee6bcdbc73", // EDDSA secret key generated from the secret (1024 bytes)
+        "publicKey": "dda3ce5aa5...b409bf3fdc" // EDDSA public key generated from the secret (64 bytes) (also known as address)
+      },
+      {
+        "index": 2,
+        "secretKey": "072ab010ed...246ed16d26", // EDDSA secret key generated from pbkdf2 (sha512 (salt + passwordHash + random factor)) over last address secret key (1024 bytes)
+        "publicKey": "4f8293356d...b53e8c5b25"  // EDDSA public key generated from the secret (64 bytes) (also known as address)
+      }
+    ]
+  }
 ]
 ```
 
@@ -226,9 +221,9 @@ It uses the EDDSA algorithm to generate a secret public key pair using a seed th
 
 ```javascript
 { // Address
-    "index": 1,
-    "secretKey": "6acb83e364...ee6bcdbc73", // EDDSA secret key generated from the secret (1024 bytes)
-    "publicKey": "dda3ce5aa5...b409bf3fdc" // EDDSA public key generated from the secret (64 bytes) (also known as address)
+  "index": 1,
+  "secretKey": "6acb83e364...ee6bcdbc73", // EDDSA secret key generated from the secret (1024 bytes)
+  "publicKey": "dda3ce5aa5...b409bf3fdc" // EDDSA public key generated from the secret (64 bytes) (also known as address)
 },
 ```
 
@@ -252,10 +247,10 @@ The proof-of-work is done by calculating the 14 first hex values for a given tra
 ```javascript
 const difficulty = this.blockchain.getDifficulty();
 do {
-    block.timestamp = new Date().getTime() / 1000;
-    block.nonce++;
-    block.hash = block.toHash();
-    blockDifficulty = block.getDifficulty();
+  block.timestamp = new Date().getTime() / 1000;
+  block.nonce++;
+  block.hash = block.toHash();
+  blockDifficulty = block.getDifficulty();
 } while (blockDifficulty >= difficulty);
 ```
 
@@ -269,8 +264,8 @@ When the hash generated reaches the desired difficulty level, it returns the blo
 
 The node contains a list of connected peers and does all the data exchange between nodes, including:
 1. Receive new peers and check what to do with it
-1. Receive new blocks and check what to do with it
-2. Receive new transactions and check what to do with it
+2. Receive new blocks and check what to do with it
+3. Receive new transactions and check what to do with it
 
 The node rebroadcasts all information it receives unless it doesn't do anything with it, for example, if it already has the peer/transaction/blockchain.
 
@@ -306,32 +301,32 @@ $ curl -X POST --header 'Content-Type: application/json' --header 'password: t t
 # Mine a block to the address 1 so we can have some coins
 $ curl -X POST --header 'Content-Type: application/json' -d '{ "rewardAddress": "e155df3a1bac05f88321b73931b48b54ea4300be9d1225e0b62638f537e5544c" }' 'http://localhost:3001/miner/mine'
 {
-    "index": 1,
-    "nonce": 1,
-    "previousHash": "c4e0b8df46ce5cb2bcb0379ab0840228536cf4cd489783532a7c9d199754d1ed",
-    "timestamp": 1493475731.692,
-    "transactions": [
-        {
-            "id": "ab872b412afe62a087f3a8c354a27377f5fda33d7c98a1db3b1b0985801a6784",
-            "hash": "423bae0bd2f4782f34c770df5be21f856b468a45bf88bb146da8ec2fe0fd3d21",
-            "type": "reward",
-            "data": {
-                "inputs": [],
-                "outputs": [
-                    {
-                        "amount": 5000000000,
-                        "address": "e155df3a1bac05f88321b73931b48b54ea4300be9d1225e0b62638f537e5544c"
-                    }
-                ]
-            }
-        }
-    ],
-    "hash": "0311a3a89198ccf888c76337cc190e2db238b67a7db0d5062aac97d14fb679b4"
+  "index": 1,
+  "nonce": 1,
+  "previousHash": "c4e0b8df46ce5cb2bcb0379ab0840228536cf4cd489783532a7c9d199754d1ed",
+  "timestamp": 1493475731.692,
+  "transactions": [
+    {
+      "id": "ab872b412afe62a087f3a8c354a27377f5fda33d7c98a1db3b1b0985801a6784",
+      "hash": "423bae0bd2f4782f34c770df5be21f856b468a45bf88bb146da8ec2fe0fd3d21",
+      "type": "reward",
+      "data": {
+        "inputs": [],
+        "outputs": [
+          {
+            "amount": 5000000000,
+            "address": "e155df3a1bac05f88321b73931b48b54ea4300be9d1225e0b62638f537e5544c"
+          }
+        ]
+      }
+    }
+  ],
+  "hash": "0311a3a89198ccf888c76337cc190e2db238b67a7db0d5062aac97d14fb679b4"
 }
 
 # Create a transaction that transfer 1000000000 satoshis from address 1 to address 2
 $ curl -X POST --header 'Content-Type: application/json' --header 'password: t t t t t' -d '{ "fromAddress": "e155df3a1bac05f88321b73931b48b54ea4300be9d1225e0b62638f537e5544c", "toAddress": "c3c96504e432e35caa94c30034e70994663988ab80f94e4b526829c99958afa8", "amount": 1000000000, "changeAddress": "e155df3a1bac05f88321b73931b48b54ea4300be9d1225e0b62638f537e5544c" }' 'http://localhost:3001/operator/wallets/a2fb4d3f93ea3d4624243c03f507295c0c7cb5b78291a651e5575dcd03dfeeeb/transactions'
- {
+{
   "id": "c3c1e6fbff949042b065dc9e22d065a54ab826595fd8877d2be8ddb8cbb0e27f",
   "hash": "3b5bbf698031e437787fe7b31f098e214a1eeff01fee9b95c22bccf20146982c",
   "type": "regular",
@@ -467,14 +462,14 @@ $ curl -X GET --header 'Content-Type: application/json' 'http://localhost:3001/b
 $ docker build . -t zenny
 
 # Run zenny in a docker
-$ ./dockerExec.sh
+$ ./docker-exec.sh
 
 # Run zenny in a docker using port 3002
-$ ./dockerExec.sh -p 3002
+$ ./docker-exec.sh -p 3002
 
 # Run zenny in a docker options
-$ ./dockerExec.sh -h
-Usage: ./dockerExec.sh -a HOST -p PORT -l LOG_LEVEL -e PEERS -n NAME
+$ ./docker-exec.sh -h
+Usage: ./docker-exec.sh -a HOST -p PORT -l LOG_LEVEL -e PEERS -n NAME
 
 # Run docker-compose with 3 nodes
 $ docker-compose up
@@ -508,15 +503,3 @@ $ npm install
 # Testing
 $ npm test
 ```
-
-### Contribution and License Agreement
-
-If this implementation does something wrong, please feel free to contribute by opening an issue or sending a PR. The main goal of this project is not to create a full-featured cryptocurrency, but a good example of how it works.
-
-If you contribute code to this project, you are implicitly allowing your code
-to be distributed under the Apache 2.0 license. You are also implicitly verifying that
-all code is your original work.
-
-[![Twitter](https://img.shields.io/twitter/url/https/github.com/conradoqg/zenny.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20it%20out%3A%20Zenny%20-%20a%20cryptocurrency%20implementation%20in%20less%20than%201500%20lines%20of%20code&url=%5Bobject%20Object%5D)
-
-[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/conradoqg/zenny/master/LICENSE)
