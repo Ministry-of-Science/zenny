@@ -1,48 +1,48 @@
 #!/bin/bash
 
 usage () {
-    echo "Usage: $0 -a HOST -p PORT -l LOG_LEVEL -e PEERS -n NAME"
-    exit
+  echo "Usage: $0 -a HOST -p PORT -l LOG_LEVEL -e PEERS -n NAME"
+  exit
 }
 
 echo_err_help () {
-    echo "$1" >&2
-    usage
-    exit 1
+  echo "$1" >&2
+  usage
+  exit 1
 }
 
 # cli options
 options="ha:p:l:e:n"
 while getopts $options OPTION; do
-    case $OPTION in
-        a)
-            HOST=$OPTARG
-            ;;
-        p) 
-            PORT=$OPTARG
-            ;;
-        l) 
-            LOG_LEVEL=$OPTARG
-            ;;
-        e)
-            PEERS=$OPTARG
-            ;;
-        n)
-            NAME=$OPTARG
-            ;;
-        h) 
-            usage 
-            ;;
-        \?) 
-            echo_err_help "Unknown option: -$OPTARG"
-            ;;
-        :) 
-            echo_err_help "Missing option argument for -$OPTARG" 
-            ;;
-        *) 
-            echo_err_help "Unimplemented option: -$OPTARG" 
-            ;;
-    esac
+  case $OPTION in
+    a)
+      HOST=$OPTARG
+      ;;
+    p)
+      PORT=$OPTARG
+      ;;
+    l)
+      LOG_LEVEL=$OPTARG
+      ;;
+    e)
+      PEERS=$OPTARG
+      ;;
+    n)
+      NAME=$OPTARG
+      ;;
+    h)
+      usage
+      ;;
+    \?)
+      echo_err_help "Unknown option: -$OPTARG"
+      ;;
+    :)
+      echo_err_help "Missing option argument for -$OPTARG"
+      ;;
+    *)
+      echo_err_help "Unimplemented option: -$OPTARG"
+      ;;
+  esac
 done
 
 shift $((OPTIND - 1))

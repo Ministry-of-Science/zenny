@@ -8,7 +8,7 @@ const assert = require("assert");
 const fs = require("fs-extra");
 const supertest = require("supertest");
 
-const HttpServer = require("../lib/httpServer");
+const HttpServer = require("../lib/http-server");
 const Blockchain = require("../lib/blockchain");
 const Operator = require("../lib/operator");
 const Miner = require("../lib/miner");
