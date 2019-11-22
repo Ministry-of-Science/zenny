@@ -18,7 +18,7 @@ Cryptocurrencies and smart-contracts on top of a blockchain aren't the most triv
 * HTTP API interface to control everything
 * Synchronization of blockchain and transactions
 * Simple proof-of-work (The difficulty increases every 5 blocks)
-* Addresses creation using a deterministic approach [EdDSA](https://en.wikipedia.org/wiki/EdDSA)
+* Addresses creation using a deterministic approach [EDDSA](https://en.wikipedia.org/wiki/EDDSA)
 * Data is persisted to a folder
 
 > Naivechain uses websocket for p2p communication, but it was dropped to simplify the understanding of message exchange. It is relying only on REST communication.
@@ -205,13 +205,13 @@ A wallet contains a random id number, the password hash and the secret generated
         "keyPairs": [
             {
                 "index": 1,
-                "secretKey": "6acb83e364...ee6bcdbc73", // EdDSA secret key generated from the secret (1024 bytes)
-                "publicKey": "dda3ce5aa5...b409bf3fdc" // EdDSA public key generated from the secret (64 bytes) (also known as address)
+                "secretKey": "6acb83e364...ee6bcdbc73", // EDDSA secret key generated from the secret (1024 bytes)
+                "publicKey": "dda3ce5aa5...b409bf3fdc" // EDDSA public key generated from the secret (64 bytes) (also known as address)
             },
             {
                 "index": 2,
-                "secretKey": "072ab010ed...246ed16d26", // EdDSA secret key generated from pbkdf2 (sha512 (salt + passwordHash + random factor)) over last address secret key (1024 bytes)
-                "publicKey": "4f8293356d...b53e8c5b25"  // EdDSA public key generated from the secret (64 bytes) (also known as address)
+                "secretKey": "072ab010ed...246ed16d26", // EDDSA secret key generated from pbkdf2 (sha512 (salt + passwordHash + random factor)) over last address secret key (1024 bytes)
+                "publicKey": "4f8293356d...b53e8c5b25"  // EDDSA public key generated from the secret (64 bytes) (also known as address)
             }     
         ]
     }
@@ -222,13 +222,13 @@ A wallet contains a random id number, the password hash and the secret generated
 
 The address is created in a deterministic way, meaning that for a given password, the next address is created based on the previous address (or the password secret if it's the first address).
 
-It uses the EdDSA algorithm to generate a secret public key pair using a seed that can come from a random generated value from the password hash (also in a deterministic way) or from the last secret key.
+It uses the EDDSA algorithm to generate a secret public key pair using a seed that can come from a random generated value from the password hash (also in a deterministic way) or from the last secret key.
 
 ```javascript
 { // Address
     "index": 1,
-    "secretKey": "6acb83e364...ee6bcdbc73", // EdDSA secret key generated from the secret (1024 bytes)
-    "publicKey": "dda3ce5aa5...b409bf3fdc" // EdDSA public key generated from the secret (64 bytes) (also known as address)
+    "secretKey": "6acb83e364...ee6bcdbc73", // EDDSA secret key generated from the secret (1024 bytes)
+    "publicKey": "dda3ce5aa5...b409bf3fdc" // EDDSA public key generated from the secret (64 bytes) (also known as address)
 },
 ```
 

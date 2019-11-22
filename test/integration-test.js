@@ -1,12 +1,17 @@
-"use strict"; /* global describe, it, step */
+"use strict"; require("mocha-steps"); /* global describe, it, step */
 
 
 
-require("mocha-steps");
+//  N A T I V E
 
 const assert = require("assert");
+
+//  P A C K A G E S
+
 const fs = require("fs-extra");
 const supertest = require("supertest");
+
+//  U T I L S
 
 const HttpServer = require("../lib/http-server");
 const Blockchain = require("../lib/blockchain");
@@ -16,11 +21,17 @@ const Node = require("../lib/node");
 
 const logLevel = 0;
 
-require("../lib/util/consoleWrapper.js")("integrationTest", logLevel);
+require("../lib/util/console-Wrapper.js")("integrationTest", logLevel);
+
+
+
+//  P R O G R A M
 
 describe("Integration Test", () => {
+  const context = {};
   const name1 = "integrationTest1";
   const name2 = "integrationTest2";
+  const walletPassword = "t t t t t";
 
   const createZenny = (name, host, port, peers, removeData = true) => {
     if (removeData)
@@ -35,12 +46,9 @@ describe("Integration Test", () => {
     return httpServer.listen(host, port);
   };
 
-  const walletPassword = "t t t t t";
-  const context = {};
-
   step("start server 1", () => {
     return createZenny(name1, "localhost", 3001, [])
-      .then((httpServer) => {
+      .then(httpServer => {
         context.httpServer1 = httpServer;
       });
   });
@@ -130,7 +138,11 @@ describe("Integration Test", () => {
           .get(`/node/transactions/${context.transactionId}/confirmations`)
           .expect(200)
           .expect(res => {
-            assert.strict.equal(res.body.confirmations, 1, `Expected confirmations of transaction "${context.transactionId}" to be "1"`);
+            assert.strict.equal(
+              res.body.confirmations,
+              1,
+              `Expected confirmations of transaction "${context.transactionId}" to be "1"`
+            );
           });
       });
   });
@@ -142,7 +154,11 @@ describe("Integration Test", () => {
           .get(`/operator/${context.address1}/balance`)
           .expect(200)
           .expect(res => {
-            assert.strict.equal(res.body.balance, 9000000000, `Expected balance of address "${context.address1}" to be "9000000000"`);
+            assert.strict.equal(
+              res.body.balance,
+              9000000000,
+              `Expected balance of address "${context.address1}" to be "9000000000"`
+            );
           });
       });
   });
@@ -154,7 +170,11 @@ describe("Integration Test", () => {
           .get(`/operator/${context.address2}/balance`)
           .expect(200)
           .expect(res => {
-            assert.strict.equal(res.body.balance, 1000000000, `Expected balance of address "${context.address2}" to be "1000000000"`);
+            assert.strict.equal(
+              res.body.balance,
+              1000000000,
+              `Expected balance of address "${context.address2}" to be "1000000000"`
+            );
           });
       });
   });
@@ -167,7 +187,11 @@ describe("Integration Test", () => {
           .query({ address: context.address1 })
           .expect(200)
           .expect(res => {
-            assert.strict.equal(res.body.length, 3, `Expected unspent transactions of address "${context.address1}" to be "3"`);
+            assert.strict.equal(
+              res.body.length,
+              3,
+              `Expected unspent transactions of address "${context.address1}" to be "3"`
+            );
           });
       });
   });
@@ -197,7 +221,11 @@ describe("Integration Test", () => {
           .get("/blockchain/blocks")
           .expect(200)
           .expect(res => {
-            assert.strict.equal(res.body.length, 3, "Expected blockchain size of 3 on server 2");
+            assert.strict.equal(
+              res.body.length,
+              3,
+              "Expected blockchain size of 3 on server 2"
+            );
           });
       });
   });
@@ -209,7 +237,11 @@ describe("Integration Test", () => {
           .get(`/node/transactions/${context.transactionId}/confirmations`)
           .expect(200)
           .expect(res => {
-            assert.strict.equal(res.body.confirmations, 2, `Expected confirmations of transaction "${context.transactionId}" to be "2"`);
+            assert.strict.equal(
+              res.body.confirmations,
+              2,
+              `Expected confirmations of transaction "${context.transactionId}" to be "2"`
+            );
           });
       });
   });
@@ -221,7 +253,11 @@ describe("Integration Test", () => {
           .get(`/node/transactions/${context.transactionId}/confirmations`)
           .expect(200)
           .expect(res => {
-            assert.strict.equal(res.body.confirmations, 2, `Expected confirmations of transaction "${context.transactionId}" to be "2"`);
+            assert.strict.equal(
+              res.body.confirmations,
+              2,
+              `Expected confirmations of transaction "${context.transactionId}" to be "2"`
+            );
           });
       });
   });
@@ -263,7 +299,11 @@ describe("Integration Test", () => {
           .get("/blockchain/transactions")
           .expect(200)
           .expect(res => {
-            assert.strict.equal(res.body.length, 1, `Expected transactions size of "${context.transactionId}" to be "1"`);
+            assert.strict.equal(
+              res.body.length,
+              1,
+              `Expected transactions size of "${context.transactionId}" to be "1"`
+            );
           });
       })
       .then(res => {
@@ -278,7 +318,11 @@ describe("Integration Test", () => {
           .get(`/operator/${context.address1}/balance`)
           .expect(200)
           .expect(res => {
-            assert.strict.equal(res.body.balance, 7999999999, `Expected balance of address "${context.address1}" to be "7999999999"`);
+            assert.strict.equal(
+              res.body.balance,
+              7999999999,
+              `Expected balance of address "${context.address1}" to be "7999999999"`
+            );
           });
       });
   });
@@ -300,8 +344,17 @@ describe("Integration Test", () => {
             .get("/operator/wallets")
             .expect(200)
             .expect(res => {
-              assert.strict.equal(res.body.length, 1, "Expected 1 wallet.");
-              assert.strict.equal(res.body[0].addresses.length, 2, "Expected 2 addresses.");
+              assert.strict.equal(
+                res.body.length,
+                1,
+                "Expected 1 wallet."
+              );
+
+              assert.strict.equal(
+                res.body[0].addresses.length,
+                2,
+                "Expected 2 addresses."
+              );
             });
         });
     });
@@ -313,7 +366,11 @@ describe("Integration Test", () => {
             .get(`/operator/wallets/${context.walletId}/addresses`)
             .expect(200)
             .expect(res => {
-              assert.strict.equal(res.body.length, 2, "Expected 2 addresses.");
+              assert.strict.equal(
+                res.body.length,
+                2,
+                "Expected 2 addresses."
+              );
             });
         });
     });
@@ -325,7 +382,11 @@ describe("Integration Test", () => {
             .get(`/operator/wallets/${context.walletId}`)
             .expect(200)
             .expect(res => {
-              assert.strict.equal(res.body.addresses.length, 2, "Expected 2 addresses.");
+              assert.strict.equal(
+                res.body.addresses.length,
+                2,
+                "Expected 2 addresses."
+              );
             });
         });
     });
@@ -365,7 +426,11 @@ describe("Integration Test", () => {
             .get(`/blockchain/blocks/${context.latestBlock.hash}`)
             .expect(200)
             .expect(res => {
-              assert.strict.equal(res.body.hash, context.latestBlock.hash, `Expected hash of block index '${context.latestBlock.index}' to be '${context.latestBlock.hash}'`);
+              assert.strict.equal(
+                res.body.hash,
+                context.latestBlock.hash,
+                `Expected hash of block index "${context.latestBlock.index}" to be "${context.latestBlock.hash}"`
+              );
             });
         });
     });
@@ -377,7 +442,11 @@ describe("Integration Test", () => {
             .get(`/blockchain/blocks/${context.latestBlock.index}`)
             .expect(200)
             .expect(res => {
-              assert.strict.equal(res.body.index, context.latestBlock.index, `Expected index of block hash '${context.latestBlock.hash}' to be '${context.latestBlock.index}'`);
+              assert.strict.equal(
+                res.body.index,
+                context.latestBlock.index,
+                `Expected index of block hash "${context.latestBlock.hash}" to be "${context.latestBlock.index}"`
+              );
             });
         });
     });
@@ -562,7 +631,7 @@ describe("Integration Test", () => {
       return Promise.resolve()
         .then(() => context.httpServer1.stop())
         .then(() => {
-          fs.removeSync("data/" + name1 + "/");
+          fs.removeSync(`data/${name1}/`);
         });
     });
   });

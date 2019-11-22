@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+
+
+
+//  U T I L S
+
 const zenny = require("./../lib/zenny");
 
 const argv = require("yargs")
@@ -15,5 +20,9 @@ const argv = require("yargs")
   .help("h")
   .alias("h", "help")
   .argv;
+
+
+
+//  P R O G R A M
 
 zenny(argv.host, argv.port, argv.peers, argv.logLevel, argv.name);

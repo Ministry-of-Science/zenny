@@ -1,4 +1,4 @@
-version: '2'
+version: "2"
 services:
   node1:
     environment:
@@ -12,10 +12,10 @@ services:
     volumes:
     - ./:/zenny
   node2:
-    environment:      
+    environment:
       - HOST=0.0.0.0
       - NAME=2
-      - PEERS=http://node1:3001      
+      - PEERS=http://node1:3001
     build:
       context: ./
       dockerfile: Dockerfile
@@ -29,7 +29,7 @@ services:
     environment:
       - HOST=0.0.0.0
       - NAME=3
-      - PEERS=http://node2:3001      
+      - PEERS=http://node2:3001
     build:
       context: ./
       dockerfile: Dockerfile
