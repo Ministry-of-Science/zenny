@@ -1,27 +1,25 @@
-"use strict"; require("mocha-steps"); /* global describe, it, step */
+"use strict"; require("mocha-steps"); require("../lib/util/console-wrapper.js")("integrationTest", 0); /* global describe, it, step */
 
 
 
 //  N A T I V E
 
-const assert = require("assert");
+import assert from "assert";
 
-//  P A C K A G E S
+//  I M P O R T S
 
-const fs = require("fs-extra");
-const supertest = require("supertest");
+import fs from "fs-extra";
+import supertest from "supertest";
 
 //  U T I L S
 
-const HttpServer = require("../lib/http-server");
-const Blockchain = require("../lib/blockchain");
-const Operator = require("../lib/operator");
-const Miner = require("../lib/miner");
-const Node = require("../lib/node");
+import HttpServer from "../lib/http-server";
+import Blockchain from "../lib/blockchain";
+import Operator from "../lib/operator";
+import Miner from "../lib/miner";
+import Node from "../lib/node";
 
-const logLevel = 0;
-
-require("../lib/util/console-wrapper.js")("integrationTest", logLevel);
+// const logLevel = 0;
 
 
 
@@ -39,7 +37,7 @@ describe("Integration Test", () => {
 
     const blockchain = new Blockchain(name);
     const operator = new Operator(name, blockchain);
-    const miner = new Miner(blockchain, logLevel);
+    const miner = new Miner(blockchain, 0);
     const node = new Node(host, port, peers, blockchain);
     const httpServer = new HttpServer(node, blockchain, operator, miner);
 

@@ -57,11 +57,12 @@
     "diagrams": "mmdc -i doc/blockchain.mmd -o doc/blockchain.png -b transparent && mmdc -i doc/components.mmd -o doc/components.png -b transparent",
     "format": "eslint . --fix",
     "increment": "chronver --increment package",
-    "start": "node bin/zenny.js",
-    "test:mocha": "_mocha -u bdd --colors test/",
+    "mocha": "_mocha -u bdd --colors test/",
+    "---start": "node bin/zenny.js",
+    "start": "node lib/zenny.js",
     "test": "run-s test:*",
     "test:dependencies": "updates --update ./",
     "test:lint": "standardx --verbose | snazzy"
   },
-  "version": "2019.11.22.2"
+  "version": "2019.11.22.3"
 }
