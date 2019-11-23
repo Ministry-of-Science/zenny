@@ -3,6 +3,9 @@
 Thumbs.db
 
 # Folders
+.nyc_output
+coverage
+data
 dist
 node_modules
 

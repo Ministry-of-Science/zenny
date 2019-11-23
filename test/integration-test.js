@@ -21,7 +21,7 @@ const Node = require("../lib/node");
 
 const logLevel = 0;
 
-require("../lib/util/console-Wrapper.js")("integrationTest", logLevel);
+require("../lib/util/console-wrapper.js")("integrationTest", logLevel);
 
 
 
@@ -35,7 +35,7 @@ describe("Integration Test", () => {
 
   const createZenny = (name, host, port, peers, removeData = true) => {
     if (removeData)
-      fs.removeSync("data/" + name + "/");
+      fs.removeSync(`data/${name}/`);
 
     const blockchain = new Blockchain(name);
     const operator = new Operator(name, blockchain);
