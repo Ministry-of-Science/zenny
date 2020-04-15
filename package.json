@@ -36,7 +36,7 @@
     "updates": "^9.1.0"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=13.2.0"
   },
   "homepage": "https://code.webb.page/SciLab/zenny",
   "husky": {
@@ -64,5 +64,6 @@
     "test:dependencies": "updates --update ./",
     "test:lint": "standardx --verbose | snazzy"
   },
-  "version": "2019.11.22.3"
+  "type": "module",
+  "version": "2019.11.23"
 }
